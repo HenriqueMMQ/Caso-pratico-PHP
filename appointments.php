@@ -71,7 +71,7 @@ require('api.php');
                 ?>
 
                 <h2>As suas consultas:</h2>
-                <div class="row appointments">
+                <div class="row">
 
                     <p>
                         <?php
@@ -81,7 +81,7 @@ require('api.php');
                             $appointmentID = $appointment['id'];
 
                             echo
-                                '<div class="appointment">
+                                '<div class="col-md-4 mb-4">
                                     <form class="form"  method="POST">
                                         <div class="input-container">
                                             <input type="date" name="date" id="date" class="out_none" value="' . $appointment['date'] . '">

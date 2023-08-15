@@ -206,18 +206,22 @@ if ($action == "delete_appointment") {
 
 if ($action == "add_project") {
 
+    $title = $_POST['title'];
+    $description = $_POST['description'];
+    $photo = base64_encode(file_get_contents($_FILES['photo']['tmp_name']));
+    $_SESSION['photo'] = $photo;
+    $completionTime = $_POST['completionTime'];
+
     $user_id = $_SESSION['user']['id'];
     $sql = "SELECT * FROM users WHERE (id = $user_id)";
-
-    $projectID = $_POST['projectID'];
 
     $result = mysqli_query($connection, $sql);
 
     if ($user_id) {
 
-        /* $sql = "INSERT ..."; */
+        $sql = "INSERT INTO portfolio (user_id, title, description, photo, completion_time) VALUES ('$user_id', '$title', '$description', '$photo', '$completionTime')";
 
-        /* $result = mysqli_query($connection, $sql); */
+        $result = mysqli_query($connection, $sql);
 
         header('Location: ' . 'portfolio.php');
         die;
