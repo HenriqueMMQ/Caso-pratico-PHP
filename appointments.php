@@ -99,7 +99,6 @@ require('api.php');
                                     </form>
                                 </div>';
 
-                            /* $date = date_format(date_create($appointment['date']), "Y/m/d"); */
                         }
                         ?>
 

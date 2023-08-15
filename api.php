@@ -44,7 +44,6 @@ if ($action == "login") {
         $_SESSION['email'] = $email;
         unset($checkUser['password']);
         $_SESSION['user'] = $checkUser;
-        $action = "";
 
         header('Location: ' . 'profile.php');
         die;
@@ -77,7 +76,6 @@ if ($action == "update_user") {
 
         $_SESSION['user'] = $user;
 
-        $action = "";
 
     }
 }
@@ -96,7 +94,6 @@ if ($action == "add_appointment") {
         $sql = "INSERT INTO appointments (user_id, date, reason) VALUES ('$user_id', '$date', '$reason')";
 
         $result = mysqli_query($connection, $sql);
-        $action = "";
 
         header('Location: ' . 'appointments.php');
         die;
@@ -127,6 +124,29 @@ $getAppointments = function () use ($connection) {
 
 };
 
+$getProjects = function () use ($connection) {
+
+    $user_id = $_SESSION['user']['id'];
+    $user_admin = $_SESSION['user']['admin'];
+
+    $sql = "SELECT * FROM users WHERE (id = $user_id)";
+
+    if ($user_id) {
+        $rows = [];
+
+        $sql = "SELECT id, title, description, photo, completion_time FROM portfolio WHERE user_id = '$user_id'";
+
+        $result = mysqli_query($connection, $sql);
+
+        while ($row = mysqli_fetch_assoc($result)) {
+            $rows[] = $row;
+        }
+
+        $_SESSION['projects'] = $rows;
+    }
+
+};
+
 if ($action == "edit_appointment") {
 
     $date = $_POST['date'];
@@ -144,7 +164,7 @@ if ($action == "edit_appointment") {
 
     if ($user_id) {
 
-        if ($date > $dateCheck) {
+        if ($date < $dateCheck) {
 
             $sql = "UPDATE appointments SET date = '$date', reason = '$reason' WHERE id = '$appointmentID'";
 
@@ -158,7 +178,6 @@ if ($action == "edit_appointment") {
 
         }
 
-        $action = "";
     }
 
 }
@@ -178,9 +197,29 @@ if ($action == "delete_appointment") {
         $sql = "DELETE FROM appointments WHERE id = '$appointmentID'";
 
         $result = mysqli_query($connection, $sql);
-        $action = "";
 
         header('Location: ' . 'appointments.php');
+        die;
+    }
+
+}
+
+if ($action == "add_project") {
+
+    $user_id = $_SESSION['user']['id'];
+    $sql = "SELECT * FROM users WHERE (id = $user_id)";
+
+    $projectID = $_POST['projectID'];
+
+    $result = mysqli_query($connection, $sql);
+
+    if ($user_id) {
+
+        /* $sql = "INSERT ..."; */
+
+        /* $result = mysqli_query($connection, $sql); */
+
+        header('Location: ' . 'portfolio.php');
         die;
     }
 
