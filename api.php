@@ -23,7 +23,8 @@ if ($action == "register") {
         $result = mysqli_query($connection, $sql);
 
     }
-    header("LOCATION: http://localhost:8888/Curso%20MasterD/Módulo%204%20-%20PHP/Caso%20Prático%20Inclusão%20de%20base%20de%20dados%20num%20website/login.php");
+    header('Location: ' . 'login.php');
+    die;
 }
 
 if ($action == "login") {
@@ -45,7 +46,8 @@ if ($action == "login") {
         $_SESSION['user'] = $checkUser;
         $action = "";
 
-        header("LOCATION: http://localhost:8888/Curso%20MasterD/Módulo%204%20-%20PHP/Caso%20Prático%20Inclusão%20de%20base%20de%20dados%20num%20website/profile.php");
+        header('Location: ' . 'profile.php');
+        die;
     }
 }
 
@@ -96,7 +98,8 @@ if ($action == "add_appointment") {
         $result = mysqli_query($connection, $sql);
         $action = "";
 
-        header("LOCATION: http://localhost:8888/Curso%20MasterD/Módulo%204%20-%20PHP/Caso%20Prático%20Inclusão%20de%20base%20de%20dados%20num%20website/appointments.php");
+        header('Location: ' . 'appointments.php');
+        die;
     }
 
 }
@@ -147,7 +150,8 @@ if ($action == "edit_appointment") {
 
             $result = mysqli_query($connection, $sql);
 
-            header("LOCATION: http://localhost:8888/Curso%20MasterD/Módulo%204%20-%20PHP/Caso%20Prático%20Inclusão%20de%20base%20de%20dados%20num%20website/appointments.php");
+            header('Location: ' . 'appointments.php');
+            die;
 
         } else {
             echo '<script>alert("Erro");</script>';
@@ -176,12 +180,14 @@ if ($action == "delete_appointment") {
         $result = mysqli_query($connection, $sql);
         $action = "";
 
-        header("LOCATION: http://localhost:8888/Curso%20MasterD/Módulo%204%20-%20PHP/Caso%20Prático%20Inclusão%20de%20base%20de%20dados%20num%20website/appointments.php");
+        header('Location: ' . 'appointments.php');
+        die;
     }
 
 }
 
 if (isset($_POST['logout'])) {
     session_destroy();
-    header("LOCATION: http://localhost:8888/Curso%20MasterD/Módulo%204%20-%20PHP/Caso%20Prático%20Inclusão%20de%20base%20de%20dados%20num%20website/login.php");
+    header('Location: ' . 'login.php');
+    die;
 }
