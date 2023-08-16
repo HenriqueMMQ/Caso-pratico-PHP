@@ -1,6 +1,6 @@
 <?php
 session_start();
-
+require('api.php');
 ?>
 
 <!DOCTYPE html>
@@ -21,7 +21,7 @@ session_start();
     <script src="script.js"></script>
 
     <link rel="stylesheet" href="./styles/style.css">
-    <link rel="stylesheet" href="./styles/login_syle.css">
+    <link rel="stylesheet" href="./styles/login_style.css">
 
     <title>Caso Prático Criação de Website com carregamento dinâmico de conteúdo estático através de AJAX</title>
 
@@ -31,11 +31,19 @@ session_start();
 
 
 <body style="background-color: #c4c4c4;">
+
+    <script>
+        $(document).ready(function () {
+            <?php $getProjects(); ?>
+        });
+    </script>
+
     <nav>
         <ul style="background-color: #c4c4c4;">
             <li><a href="#first_sec">Notícias</a></li>
-            <li><a href="#second_sec">Galeria de Imagens</a></li>
-            <li><a href="#third_sec">Orçamento</a></li>
+            <li><a href="#second_sec">Portfolio</a></li>
+            <li><a href="#third_sec">Galeria de Imagens</a></li>
+            <li><a href="#fourth_sec">Orçamento</a></li>
         </ul>
     </nav>
 
@@ -43,9 +51,59 @@ session_start();
 
     <section id="first_sec" style="background-color: #c4c4c4;">Notícias</section>
     <div class="news" id="news_feed">Conteudo AJAX com as notícias</div>
+    <section id="second_sec" style="background-color: #c4c4c4;">Portfolio</section>
+    <div class="col form-dark">
+        <?php
+        if ($_SESSION['projects']) {
+            ?>
+
+            <h2>Os seus projetos:</h2>
+            <div class="row">
+
+                <p>
+                    <?php
+                    foreach ($_SESSION['projects'] as $project) {
+
+                        $projectID = $project['id'];
+
+                        echo
+                            '<div class="col-md-4 col-sm-12">
+                                    <form class="form"  method="POST">
+                                        <div class="input-container">
+                                        <h5 style="text-align: left; margin-left:10px;margin-top:10px;">Titulo do projeto</h5>
+                                            <input type="text" name="title" id="title" class="out_none" disabled value="' . $project['title'] . '">
+                                        </div>
+                                        <div class="input-container">
+                                        <h5 style="text-align: left; margin-left:10px;margin-top:10px;">Descrição do projeto</h5>
+                                            <textarea type="text" id="description" name="description" disabled class="out_none form-control" rows="7" cols="30">' . $project['description'] . '</textarea>
+                                            </div>
+                                        <input type="text" name="projectID" id="projectID" class="out_none" hidden value="' . $project['id'] . '">
+                                        <br>
+                                        <h5 style="text-align: left; margin-left:10px;margin-top:10px;">Imagem</h5>   
+                                        <img style="height: 200px; width: 317px;margin-bottom:10px; object-fit: fill;" src="data:image/jpeg;base64,' . $project['photo'] . '">
+                                        <br>
+                                        <h5 style="text-align: left; margin-left:10px;margin-top:10px;">Tempo demorado</h5>
+                                        <input class="out_none form-control" type="number" name="completionTime" id="completionTime" disabled class="out_none" value="' . $project['completion_time'] . '">
+                                    </form>
+                                </div>';
+
+                    }
+                    ?>
+
+                </p>
+            </div>
+            <?php
+        } else {
+            ?>
+            <h2>Não tem projetos guardados</h2>
+
+            <?php
+        }
+
+        ?>
 
 
-    <section id="second_sec" style="background-color: #c4c4c4;">Galeria de Imagens</section>
+    <section id="third_sec" style="background-color: #c4c4c4;">Galeria de Imagens</section>
     <div class="main">Conteudo com galeria em fancybox<div>
             <a class="textdeco_none" href="../images/image1.jpg" data-fancybox
                 data-caption="McWay Falls - USA (Califórnia)">
@@ -79,7 +137,7 @@ session_start();
     </div>
 
 
-    <section id="third_sec" style="background-color: #c4c4c4;">Pedido de Orçamento</section>
+    <section id="fourth_sec" style="background-color: #c4c4c4;">Pedido de Orçamento</section>
     <div class="">
         <div class="div_third_sec">
             <h2>Dados</h2>
@@ -131,7 +189,7 @@ session_start();
         Fancybox.bind("[data-fancybox]", {
         });
     </script>
-    
+
     <?php
     require('sidebar.php');
 

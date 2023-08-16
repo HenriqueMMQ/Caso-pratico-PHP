@@ -229,6 +229,53 @@ if ($action == "add_project") {
 
 }
 
+if ($action == "edit_project") {
+
+    $title = $_POST['title'];
+    $description = $_POST['description'];
+    $user_id = $_SESSION['user']['id'];
+    $completionTime = $_POST['completionTime'];
+
+
+    $sql = "SELECT * FROM users WHERE id = '$user_id'";
+
+    $projectID = $_POST['projectID'];
+    $result = mysqli_query($connection, $sql);
+
+
+    if ($user_id) {
+
+            $sql = "UPDATE portfolio SET title = '$title', description = '$description', completion_time = '$completionTime' WHERE id = '$projectID'";
+
+            $result = mysqli_query($connection, $sql);
+
+            header('Location: ' . 'portfolio.php');
+            die;
+    }
+
+}
+
+if ($action == "delete_project") {
+
+    $user_id = $_SESSION['user']['id'];
+    $sql = "SELECT * FROM users WHERE (id = $user_id)";
+
+    $projectID = $_POST['projectID'];
+
+    $result = mysqli_query($connection, $sql);
+
+    if ($user_id) {
+
+        $sql = "DELETE FROM portfolio WHERE id = '$projectID'";
+
+        $result = mysqli_query($connection, $sql);
+
+        header('Location: ' . 'portfolio.php');
+        die;
+    }
+
+}
+
 if (isset($_POST['logout'])) {
     session_destroy();
     header('Location: ' . 'login.php');
