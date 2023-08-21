@@ -34,7 +34,10 @@ require('api.php');
 
     <script>
         $(document).ready(function () {
-            <?php $getProjects(); ?>
+            <?php
+             $getProjects();
+             $getNewsIndex();
+             ?>
         });
     </script>
 
@@ -51,6 +54,51 @@ require('api.php');
 
     <section id="first_sec" style="background-color: #c4c4c4;">Notícias</section>
     <div class="news" id="news_feed">Conteudo AJAX com as notícias</div>
+    <?php
+        if ($_SESSION['news']) {
+            ?>
+
+            <h2>Notícias:</h2>
+            <div class="row">
+
+                <p>
+                    <?php
+                    foreach ($_SESSION['news'] as $new) {
+
+                        $newID = $new['id'];
+
+                        echo
+                            '<div class="col-md-4 col-sm-12">
+                                    <form class="form"  method="POST">
+                                    <div class="input-container">
+                                    <h5 style="text-align: left; margin-left:10px;margin-top:10px;">Titulo da notícia</h5>
+                                        <input type="button" name="title" class="out_none news-title" value="' . $new['title'] . '">
+                                    </div>
+                                        <div class="input-container description-container" hidden>
+                                        <h5 style="text-align: left; margin-left:10px;margin-top:10px;">Descrição da notícia</h5>
+                                            <textarea type="text" id="description" name="description" disabled class="out_none form-control" rows="7" cols="30">' . $new['description'] . '</textarea>
+                                        </div>
+                                        
+                                        <input type="text" name="newID" id="newID" class="out_none" hidden value="' . $new['id'] . '">
+                                    </form>
+                                </div>
+                                
+                                ';
+
+                    }
+                    ?>
+
+                </p>
+            </div>
+            <?php
+        } else {
+            ?>
+            <h2>Não há notícias</h2>
+
+            <?php
+        }
+
+        ?>
     <section id="second_sec" style="background-color: #c4c4c4;">Portfolio</section>
     <div class="col form-dark">
         <?php
@@ -101,6 +149,8 @@ require('api.php');
         }
 
         ?>
+
+
 
 
     <section id="third_sec" style="background-color: #c4c4c4;">Galeria de Imagens</section>

@@ -147,6 +147,53 @@ $getProjects = function () use ($connection) {
 
 };
 
+$getNewsIndex = function () use ($connection) {
+
+    $user_id = $_SESSION['user']['id'];
+    $user_admin = $_SESSION['user']['admin'];
+
+    $sql = "SELECT * FROM users WHERE (id = $user_id)";
+
+    if ($user_id) {
+        $rows = [];
+
+        $sql = "SELECT id, title, description FROM news ORDER BY id DESC LIMIT 5";
+
+        $result = mysqli_query($connection, $sql);
+
+        while ($row = mysqli_fetch_assoc($result)) {
+            $rows[] = $row;
+        }
+
+        $_SESSION['news'] = $rows;
+    }
+
+};
+
+$getNews = function () use ($connection) {
+
+    $user_id = $_SESSION['user']['id'];
+    $user_admin = $_SESSION['user']['admin'];
+
+    $sql = "SELECT * FROM users WHERE (id = $user_id)";
+
+    if ($user_id) {
+        $rows = [];
+
+        $sql = "SELECT id, title, description FROM news ORDER BY id DESC";
+
+        $result = mysqli_query($connection, $sql);
+
+        while ($row = mysqli_fetch_assoc($result)) {
+            $rows[] = $row;
+        }
+
+        $_SESSION['news'] = $rows;
+    }
+
+};
+
+
 if ($action == "edit_appointment") {
 
     $date = $_POST['date'];
@@ -271,6 +318,74 @@ if ($action == "delete_project") {
         $result = mysqli_query($connection, $sql);
 
         header('Location: ' . 'portfolio.php');
+        die;
+    }
+
+}
+
+if ($action == "add_new") {
+
+    $title = $_POST['title'];
+    $description = $_POST['description'];
+
+    $user_id = $_SESSION['user']['id'];
+    $sql = "SELECT * FROM users WHERE (id = $user_id)";
+
+    $result = mysqli_query($connection, $sql);
+
+    if ($user_id) {
+
+        $sql = "INSERT INTO news (user_id, title, description) VALUES ('$user_id', '$title', '$description')";
+
+        $result = mysqli_query($connection, $sql);
+
+        header('Location: ' . 'news.php');
+        die;
+    }
+
+}
+
+if ($action == "edit_new") {
+
+    $title = $_POST['title'];
+    $description = $_POST['description'];
+    $user_id = $_SESSION['user']['id'];
+
+
+    $sql = "SELECT * FROM users WHERE id = '$user_id'";
+
+    $newID = $_POST['newID'];
+    $result = mysqli_query($connection, $sql);
+
+
+    if ($user_id) {
+
+            $sql = "UPDATE news SET title = '$title', description = '$description' WHERE id = '$newID'";
+
+            $result = mysqli_query($connection, $sql);
+
+            header('Location: ' . 'news.php');
+            die;
+    }
+
+}
+
+if ($action == "delete_new") {
+
+    $user_id = $_SESSION['user']['id'];
+    $sql = "SELECT * FROM users WHERE (id = $user_id)";
+
+    $newID = $_POST['newID'];
+
+    $result = mysqli_query($connection, $sql);
+
+    if ($user_id) {
+
+        $sql = "DELETE FROM news WHERE id = '$newID'";
+
+        $result = mysqli_query($connection, $sql);
+
+        header('Location: ' . 'news.php');
         die;
     }
 

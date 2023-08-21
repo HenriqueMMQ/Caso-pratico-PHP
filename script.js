@@ -1,3 +1,19 @@
+/*
+function showDescription(titleID) {
+    if (newsDescription == false) {
+        newsDescription = true;
+        document.getElementById('news_description').style.display = 'block';
+    }
+    else {
+        newsDescription = false;
+        document.getElementById('news_description').style.display = 'none';
+
+    }
+}; */
+
+
+
+
 var open_google = false;
 var open_zdnet = false;
 
@@ -68,6 +84,7 @@ function load_zdnet_news() {
 }
 
 var discount = 0;
+var newsDescription = false;
 
 $(document).ready(function () {
     $("#date_limit").change(function () {
@@ -88,6 +105,27 @@ $(document).ready(function () {
 
         $("#final_discount").val("Desconto = " + discount * 100 + "%");
     });
+
+
+/*     if (newsDescription == false){
+        newsDescription = true; */
+
+        $(".news-title").click(function () {
+            $(this).next("div.description-container").show();
+        });
+
+/*     } else {
+        newsDescription == false;
+        $(".news_title").click(function () {
+            $(this).find(".description-container").hide();
+        })
+    } */
+
+
+
+/*     $(".news_title").click(function () {
+        $(this).closest("div.news_description").hide();
+    }); */
 
 });
 

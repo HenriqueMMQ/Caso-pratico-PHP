@@ -59,10 +59,22 @@ if (strpos($url, 'index')) {
                         <i class="fas fa-user"></i><span> Perfil</span></a>
                     <a href="appointments.php" class="list-group-item list-group-item-action py-2 ripple">
                         <i class="fas fa-regular fa-calendar-plus"></i><span> Consultas</span></a>
+
+                        <?php 
+                            $user_admin = $_SESSION['user']['admin'];
+
+                            if ($user_admin == 1) { 
+                        ?>
                     <a href="portfolio.php" class="list-group-item list-group-item-action py-2 ripple">
                         <i class="fas fa-solid fa-briefcase"></i><span> Portfólio</span></a>
+                        <a href="news.php" class="list-group-item list-group-item-action py-2 ripple" aria-current="true">
+                        <i class="fas fa-regular fa-newspaper"></i><span> News</span></a>
                     <a href="#" class="list-group-item list-group-item-action py-2 ripple">
                         <i></i>
+                        <?php 
+                            } 
+                        ?>
+                        
                         <form method="POST" action=""><button href="#" name="logout" class="">Logout</button></form>
                     </a>
                 </div>
