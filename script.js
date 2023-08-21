@@ -28,7 +28,7 @@ function load_google_news() {
   } else {
     open_google = false;
 
-    $("#news_feed").html("Conteudo AJAX com as notícias");
+    $("#news_feed").html("");
     $("#first_sec").html("Notícias");
   }
 }
@@ -65,7 +65,7 @@ function load_zdnet_news() {
   } else {
     open_zdnet = false;
 
-    $("#news_feed").html("Conteudo AJAX com as notícias");
+    $("#news_feed").html("");
     $("#first_sec").html("Notícias");
   }
 }

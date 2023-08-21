@@ -53,12 +53,11 @@ require('api.php');
 
 
     <section id="first_sec" style="background-color: #c4c4c4;">Notícias</section>
-    <div class="news" id="news_feed">Conteudo AJAX com as notícias</div>
+    <div class="news" id="news_feed"></div>
     <?php
     if ($_SESSION['news']) {
         ?>
 
-        <h2>Notícias:</h2>
         <div class="row">
 
             <p>
@@ -71,7 +70,6 @@ require('api.php');
                         '<div class="col-md-4 col-sm-12">
                                 <form class="form"  method="POST">
                                     <div class="input-container">
-                                        <h5 style="text-align: left; margin-left:10px;margin-top:10px;">Titulo da notícia</h5>
                                         <input type="button" name="title" class="out_none news-title" value="' . $new['title'] . '">
                                     </div>
                                     <div class="input-container description-container" style="display:none;">
