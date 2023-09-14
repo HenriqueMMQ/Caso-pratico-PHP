@@ -76,7 +76,8 @@ if ($action == "update_user") {
 
         $_SESSION['user'] = $user;
 
-
+        header('Location: ' . 'profile.php');
+        die;
     }
 }
 
@@ -154,19 +155,19 @@ $getNewsIndex = function () use ($connection) {
 
     $sql = "SELECT * FROM users WHERE (id = $user_id)";
 
-    if ($user_id) {
-        $rows = [];
 
-        $sql = "SELECT id, title, description FROM news ORDER BY id DESC LIMIT 5";
+    $rows = [];
 
-        $result = mysqli_query($connection, $sql);
+    $sql = "SELECT id, title, description FROM news ORDER BY id DESC LIMIT 5";
 
-        while ($row = mysqli_fetch_assoc($result)) {
-            $rows[] = $row;
-        }
+    $result = mysqli_query($connection, $sql);
 
-        $_SESSION['news'] = $rows;
+    while ($row = mysqli_fetch_assoc($result)) {
+        $rows[] = $row;
     }
+
+    $_SESSION['news'] = $rows;
+
 
 };
 
@@ -292,12 +293,12 @@ if ($action == "edit_project") {
 
     if ($user_id) {
 
-            $sql = "UPDATE portfolio SET title = '$title', description = '$description', completion_time = '$completionTime' WHERE id = '$projectID'";
+        $sql = "UPDATE portfolio SET title = '$title', description = '$description', completion_time = '$completionTime' WHERE id = '$projectID'";
 
-            $result = mysqli_query($connection, $sql);
+        $result = mysqli_query($connection, $sql);
 
-            header('Location: ' . 'portfolio.php');
-            die;
+        header('Location: ' . 'portfolio.php');
+        die;
     }
 
 }
@@ -360,12 +361,12 @@ if ($action == "edit_new") {
 
     if ($user_id) {
 
-            $sql = "UPDATE news SET title = '$title', description = '$description' WHERE id = '$newID'";
+        $sql = "UPDATE news SET title = '$title', description = '$description' WHERE id = '$newID'";
 
-            $result = mysqli_query($connection, $sql);
+        $result = mysqli_query($connection, $sql);
 
-            header('Location: ' . 'news.php');
-            die;
+        header('Location: ' . 'news.php');
+        die;
     }
 
 }
@@ -390,6 +391,82 @@ if ($action == "delete_new") {
     }
 
 }
+
+$getUsers = function () use ($connection) {
+
+    $user_id = $_SESSION['user']['id'];
+    $user_admin = $_SESSION['user']['admin'];
+
+    if ($user_admin == 1) {
+        $rows = [];
+
+        $sql = "SELECT username FROM users";
+
+        $result = mysqli_query($connection, $sql);
+
+        while ($row = mysqli_fetch_assoc($result)) {
+            $rows[] = $row;
+        }
+
+        $_SESSION['users'] = $rows;
+    }
+
+};
+
+
+
+
+
+
+/* 
+
+$_SESSION['otherUserUsername'] = $selected_option;
+
+
+
+$getOtherUser = function () use ($connection) {
+
+    $selected_option = $_POST['option_value'];
+    $_SESSION['otherUserUsername'] = $selected_option;
+
+    $user_id = $_SESSION['user']['id'];
+    $user_admin = $_SESSION['user']['admin'];
+
+    if ($user_admin == 1) {
+        $rows = [];
+
+        $sql = "SELECT id, name, surname, username, email, phone FROM users WHERE username = '" . $_SESSION['otherUserUsername'] . "'";
+
+        $result = mysqli_query($connection, $sql);
+        $_SESSION['teste'] = mysqli_fetch_assoc($result);
+    }
+}; */
+
+
+$selected_option = $_POST['option_value'];
+$_SESSION['teste1'] = $selected_option;
+if ($action == "edit_other_user") {
+
+    $selected_option = $_POST['option_value'];
+    $username = $selected_option;
+    $name = $_POST['otherUserName'];
+    $surname = $_POST['otherUserSurname'];
+    $email = $_POST['otherUserEmail'];
+    $phone = $_POST['otherUserPhone'];
+
+    $user_admin = $_SESSION['user']['admin'];
+
+    $sql = "SELECT * FROM users WHERE (id = $userID)";
+
+    $result = mysqli_query($connection, $sql);
+
+    if ($userID) {
+        $sql = "SELECT name, surname, email, phone FROM users WHERE username = '$username'";
+
+        $result = mysqli_query($connection, $sql);
+    }
+}
+
 
 if (isset($_POST['logout'])) {
     session_destroy();
